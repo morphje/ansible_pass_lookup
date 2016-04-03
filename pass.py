@@ -24,6 +24,8 @@ from ansible.plugins.lookup import LookupBase
 def check_output2(*popenargs, **kwargs):
     if 'stdout' in kwargs:
         raise ValueError('stdout argument not allowed, it will be overridden.')
+    if 'stderr' in kwargs:
+        raise ValueError('stderr argument not allowed, it will be overridden.')
     if 'input' in kwargs:
         if 'stdin' in kwargs:
             raise ValueError('stdin and input arguments may not both be used.')
@@ -32,9 +34,9 @@ def check_output2(*popenargs, **kwargs):
         kwargs['stdin'] = subprocess.PIPE
     else:
         inputdata = None
-    process = subprocess.Popen(*popenargs, stdout=subprocess.PIPE, **kwargs)
+    process = subprocess.Popen(*popenargs, stdout=subprocess.PIPE, stderr=subprocess.PIPE, **kwargs)
     try:
-        output, unused_err = process.communicate(inputdata)
+        out,err = process.communicate(inputdata)
     except:
         process.kill()
         process.wait()
@@ -44,8 +46,8 @@ def check_output2(*popenargs, **kwargs):
         cmd = kwargs.get("args")
         if cmd is None:
             cmd = popenargs[0]
-        raise subprocess.CalledProcessError(retcode, cmd, output)
-    return output
+        raise subprocess.CalledProcessError(retcode, cmd, out+err)
+    return out
 
 class LookupModule(LookupBase):
     def parse_params(self, term):
