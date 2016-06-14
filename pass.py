@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #-------------------------------------------------------------------------------
 # Name:        pass.py
 # Purpose:     parses password store (pass) for use in ansible
