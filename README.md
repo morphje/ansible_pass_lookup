@@ -7,7 +7,7 @@ his pass store. It also retrieves YAML style keys stored as multilines in the pa
 
 Examples
 --------
-(for detailed information see [ansible website](http://docs.ansible.com/ansible/playbooks_lookups.html)
+(for detailed information see [ansible website](http://docs.ansible.com/ansible/playbooks_lookups.html))
 
 Basic lookup. Fails if example/test doesn't exist
 `password="{{ lookup('pass', 'example/test'}}`
