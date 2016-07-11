@@ -85,7 +85,7 @@ class LookupModule(LookupBase):
                 if os.path.isdir(self.paramvals['directory']):
                     os.environ['PASSWORD_STORE_DIR'] = self.paramvals['directory']
                 else:
-                    raise AnsibleError('Passwordstore directory \'{}\' does not exist'.format(storebasepath))
+                    raise AnsibleError('Passwordstore directory \'{}\' does not exist'.format(self.paramvals['directory']))
 
     def check_pass(self):
         try:
@@ -142,15 +142,16 @@ class LookupModule(LookupBase):
             raise AnsibleError(e)
         return newpass
 
-    def run(self, terms, variables=None, **kwargs):
+    def run(self, terms, variables, **kwargs):
         result = []
         self.paramvals = {
             'subkey':'password',
-            'directory':'',
+            'directory':variables.get('passwordstore'),
             'create':False,
             'returnall': False,
             'overwrite':False,
             'length': 16}
+
         for term in terms:
             self.parse_params(term)
             if self.check_pass(): #password exists
