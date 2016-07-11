@@ -6,3 +6,5 @@ Contributions by:
     - Documentation
     - Overruling password-store directory
     - Bugging Patrick to write the initial version
+  - Alexis  Hildebrandt
+    - Minor fixes
