@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+  tasks:
+    # Basic lookups
+    - name: create a new random password
+      debug: msg="{{ lookup('pass', 'testpass/example1 create=true') }}"
+
+    - name: create a longer random password
+      debug: msg="{{ lookup('pass', 'testpass/example2 create=true length=42') }}"
+
+    - name: update password entry with new random password
+      debug: msg="{{ lookup('pass', 'testpass/example1 overwrite=true') }}"
+
+    - name: read example1 from the store, does not update
+      debug: msg="{{ lookup('pass', 'testpass/example1 create=true') }}"
+
+    - name: read non-existent example0 (and fail)
+      debug: msg="{{ lookup('pass', 'testpass/example0') }}"
+      ignore_errors: true
+
+    # user defined password examples
+    - name: create example3 with a userdefined password
+      debug: msg="{{ lookup('pass', 'testpass/example3 create=true userpass=r4nd0mPwd') }}"
+
+    - name: read example3 with the same statement. No overwrite
+      debug: msg="{{ lookup('pass', 'testpass/example3 create=true userpass=somethingelse') }}"
+
+    - name: update example3 with a bad userdefined password
+      debug: msg="{{ lookup('pass', 'testpass/example3 create=true userpass=Welcome01') }}"
+
+    # interacting with other data in the password store
+    - name: read entire password file
+      debug: msg="{{ lookup('pass', 'testpass/example2 returnall=true').split('\n') }}"
+
+    - name: read a kv value from the password store
+      debug: msg="{{ lookup('pass', 'testpass/example2 subkey=lookup_pass') }}"
+
