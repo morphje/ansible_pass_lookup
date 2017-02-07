@@ -111,7 +111,7 @@ class LookupModule(LookupBase):
     def update_password(self):
         # generate new password, insert old lines from current result and return new password
         try:
-		    if self.paramvals['userpass']:
+            if self.paramvals['userpass']:
                 newpass = self.paramvals['userpass']
             else:
                 newpass = check_output2(['pwgen','-cns',str(self.paramvals['length']), '1']).rstrip()
@@ -156,7 +156,7 @@ class LookupModule(LookupBase):
             'create':False,
             'returnall': False,
             'overwrite':False,
-			'userpass':''
+            'userpass':''
             'length': 16}
 
         for term in terms:
